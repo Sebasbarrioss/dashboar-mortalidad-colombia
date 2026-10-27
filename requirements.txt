@@ -1,1 +1,5 @@
-dash==4.4.1echo pandas==2.2.3echo openpyxl==3.1.5echo plotly==7.1.0echo gunicorn==26.2.0
+dash==4.4.1
+pandas==2.2.3
+openpyxl==3.1.5
+plotly==7.1.0
+gunicorn==26.2.0
