@@ -3,9 +3,9 @@ import plotly.express as px
 from dash import Dash, dcc, html
 
 # 1. Configuracion de archivos
-ARCHIVO_DEFUNCIONES = "data/NoFetal2019_CE_15-03-23.xlsx"
-ARCHIVO_DIVIPOLA = "data/Divipola_CE_.xlsx"
-ARCHIVO_CIE10 = "data/CodigosDeMuerte_CE_15-03-23.xlsx"
+ARCHIVO_DEFUNCIONES = "NoFetal2019_CE_15-03-23.xlsx"
+ARCHIVO_DIVIPOLA = "Divipola_CE_.xlsx"
+ARCHIVO_CIE10 = "CodigosDeMuerte_CE_15-03-23.xlsx"
 
 # 2. Carga de datos
 df = pd.read_excel(ARCHIVO_DEFUNCIONES, sheet_name="No_Fetales_2019")
@@ -169,7 +169,7 @@ fig_homicidios = px.bar(
 )# 12.3 Mapa de defunciones por departamento
 import json
 
-with open("data/col_departamentos.geojson", encoding="utf-8") as archivo:
+with open("col_departamentos.geojson", encoding="utf-8") as archivo:
     mapa_colombia = json.load(archivo)
 
 defunciones_mapa = (
