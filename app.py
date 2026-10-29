@@ -118,15 +118,71 @@ defunciones_edad = (
     .rename_axis("GRUPO_EDAD1")
     .reset_index(name="DEFUNCIONES")
 )
+
+rangos_edad = {
+    "Mortalidad neonatal": [4],
+    "Mortalidad infantil": [5, 6],
+    "Primera infancia": [7, 8],
+    "Niñez": [9, 10],
+    "Adolescencia": [11],
+    "Juventud": [12, 13],
+    "Adultez temprana": [14, 15, 16],
+    "Adultez intermedia": [17, 18, 19],
+    "Vejez": [20, 21, 22, 23, 24],
+    "Longevidad / Centenarios": [25, 26, 27, 28],
+    "Edad desconocida": [29],
+}
+
+
+codigo_a_etapa = {
+    codigo: etapa
+    for etapa, codigos in rangos_edad.items()
+    for codigo in codigos
+}
+
+df_edades = df.copy()
+
+df_edades["CODIGO_EDAD"] = pd.to_numeric(
+    df_edades["GRUPO_EDAD1"], errors="coerce"
+)
+
+df_edades["ETAPA_VIDA"] = (
+    df_edades["CODIGO_EDAD"]
+    .map(codigo_a_etapa)
+    .fillna("Sin clasificar")
+)
+
+orden_etapas = list(rangos_edad.keys()) + ["Sin clasificar"]
+
+defunciones_edad = (
+    df_edades.groupby("ETAPA_VIDA")
+    .size()
+    .reindex(orden_etapas, fill_value=0)
+    .rename("DEFUNCIONES")
+    .reset_index()
+)
+
 fig_edad = px.bar(
     defunciones_edad,
-    x="GRUPO_EDAD1",
+    x="ETAPA_VIDA",
     y="DEFUNCIONES",
-    labels={"GRUPO_EDAD1": "Código de grupo de edad", "DEFUNCIONES": "Defunciones"},
+    category_orders={"ETAPA_VIDA": orden_etapas},
+    labels={
+        "ETAPA_VIDA": "Etapa de vida",
+        "DEFUNCIONES": "Total de defunciones",
+    },
+    text="DEFUNCIONES",
+    color_discrete_sequence=["#2471A3"],
 )
+
 fig_edad.update_traces(
-    marker_color="#2471A3",
-    hovertemplate="Grupo: %{x}<br>Defunciones: %{y:,}<extra></extra>",
+    hovertemplate="Etapa: %{x}<br>Defunciones: %{y:,}<extra></extra>",
+    textposition="outside",
+)
+
+fig_edad.update_layout(
+    xaxis_tickangle=-35,
+    showlegend=False,
 )
 
 principales_causas = (
