@@ -539,8 +539,8 @@ app.layout = html.Div(
                                             "330px",
                                         ),
                                         tarjeta_grafica(
-                                            "Distribución por sexo",
-                                            "Participación porcentual según la variable sexo.",
+                                            "Defunciones por etapa de vida",
+                                            "Distribución de las defunciones registradas en Colombia durante 2019 según la etapa de vida.",
                                             fig_sexo,
                                             "330px",
                                         ),
