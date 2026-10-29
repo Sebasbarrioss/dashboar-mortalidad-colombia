@@ -21,12 +21,15 @@ df = pd.read_excel(ARCHIVO_DEFUNCIONES, sheet_name="No_Fetales_2019")
 poblacion = pd.read_excel(
     ARCHIVO_POBLACION,
     sheet_name="PobMunicipalxÁrea",
-    header=8
+    header=7
 )
 
 # Limpiar nombres de columnas
 poblacion.columns = poblacion.columns.astype(str).str.strip()
+.str.replace("\n", " ", regex=False)
+)
 
+print("ENCABEZADOS POBLACION:", poblacion.columns.tolist())
 # Preparar los datos
 poblacion["AÑO"] = pd.to_numeric(poblacion["AÑO"], errors="coerce")
 poblacion["TOTAL"] = pd.to_numeric(poblacion["TOTAL"], errors="coerce")
