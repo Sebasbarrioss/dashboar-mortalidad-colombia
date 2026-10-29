@@ -25,8 +25,10 @@ poblacion = pd.read_excel(
 )
 
 # Limpiar nombres de columnas
-poblacion.columns = poblacion.columns.astype(str).str.strip()
-.str.replace("\n", " ", regex=False)
+poblacion.columns = (
+    poblacion.columns.astype(str)
+    .str.strip()
+    .str.replace("\n", " ", regex=False)
 )
 
 print("ENCABEZADOS POBLACION:", poblacion.columns.tolist())
