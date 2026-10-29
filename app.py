@@ -23,26 +23,30 @@ poblacion = pd.read_excel(
     sheet_name="PobMunicipalxÁrea"
 )
 
-# Normalizar los nombres de las columnas
-poblacion.columns = poblacion.columns.astype(str).str.strip()
-
-# Conservar únicamente el año 2019 y el total del municipio
-poblacion["AÑO"] = pd.to_numeric(poblacion["AÑO"], errors="coerce")
-poblacion["TOTAL"] = pd.to_numeric(poblacion["TOTAL"], errors="coerce")
-
-poblacion_2019 = poblacion[
-    (poblacion["AÑO"] == 2019)
-    & (poblacion["ÁREA GEOGRÁFICA"].astype(str).str.strip().str.upper() == "TOTAL")
-].copy()
-
-# Preparar el código DANE municipal
-poblacion_2019["COD_DANE"] = pd.to_numeric(
-    poblacion_2019["DPMP"], errors="coerce"
+# Limpiar los nombres de las columnas
+poblacion.columns = (
+    poblacion.columns.astype(str)
+    .str.strip()
+    .str.replace("\n", " ", regex=False)
 )
 
-poblacion_2019 = poblacion_2019[
-    ["COD_DANE", "TOTAL"]
-].rename(columns={"TOTAL": "POBLACION"})
+# Mostrar los nombres reales de las columnas en los registros de Render
+print("Columnas del archivo de población:", poblacion.columns.tolist())
+
+# Normalizar nombres para evitar diferencias de tildes y espacios
+columnas_normalizadas = {
+    columna: (
+        columna.upper()
+        .replace("Á", "A")
+        .replace("É", "E")
+        .replace("Í", "I")
+        .replace("Ó", "O")
+        .replace("Ú", "U")
+    )
+    for columna in poblacion.columns
+}
+
+poblacion = poblacion.rename(columns=columnas_normalizadas)
 divipola = pd.read_excel(ARCHIVO_DIVIPOLA, sheet_name="Hoja1")
 cie10 = pd.read_excel(ARCHIVO_CIE10, sheet_name="Final", header=8)
 
