@@ -12,11 +12,37 @@ ARCHIVO_DEFUNCIONES = "NoFetal2019_CE_15-03-23.xlsx"
 ARCHIVO_DIVIPOLA = "Divipola_CE_.xlsx"
 ARCHIVO_CIE10 = "CodigosDeMuerte_CE_15-03-23.xlsx"
 ARCHIVO_GEOJSON = "col_departamentos.geojson"
+ARCHIVO_POBLACION = "PPED-AreaMun-2018-2042_VP.xlsx"
 
 # ============================================================
 # 2. Carga y preparación de datos
 # ============================================================
 df = pd.read_excel(ARCHIVO_DEFUNCIONES, sheet_name="No_Fetales_2019")
+poblacion = pd.read_excel(
+    ARCHIVO_POBLACION,
+    sheet_name="PobMunicipalxÁrea"
+)
+
+# Normalizar los nombres de las columnas
+poblacion.columns = poblacion.columns.astype(str).str.strip()
+
+# Conservar únicamente el año 2019 y el total del municipio
+poblacion["AÑO"] = pd.to_numeric(poblacion["AÑO"], errors="coerce")
+poblacion["TOTAL"] = pd.to_numeric(poblacion["TOTAL"], errors="coerce")
+
+poblacion_2019 = poblacion[
+    (poblacion["AÑO"] == 2019)
+    & (poblacion["ÁREA GEOGRÁFICA"].astype(str).str.strip().str.upper() == "TOTAL")
+].copy()
+
+# Preparar el código DANE municipal
+poblacion_2019["COD_DANE"] = pd.to_numeric(
+    poblacion_2019["DPMP"], errors="coerce"
+)
+
+poblacion_2019 = poblacion_2019[
+    ["COD_DANE", "TOTAL"]
+].rename(columns={"TOTAL": "POBLACION"})
 divipola = pd.read_excel(ARCHIVO_DIVIPOLA, sheet_name="Hoja1")
 cie10 = pd.read_excel(ARCHIVO_CIE10, sheet_name="Final", header=8)
 
