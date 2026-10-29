@@ -343,31 +343,61 @@ fig_mapa = px.choropleth(
 fig_mapa.update_geos(fitbounds="locations", visible=False, bgcolor="rgba(0,0,0,0)")
 
 defunciones_municipio = (
-    df.groupby(["DEPARTAMENTO", "MUNICIPIO"])
+    df.groupby(["COD_DANE", "DEPARTAMENTO", "MUNICIPIO"])
     .size()
     .reset_index(name="DEFUNCIONES")
-    .sort_values("DEFUNCIONES", ascending=True)
+)
+
+# Unir las defunciones con la población de 2019
+defunciones_municipio = defunciones_municipio.merge(
+    poblacion_2019,
+    on="COD_DANE",
+    how="inner",
+)
+
+# Calcular tasa por cada 1.000 habitantes
+defunciones_municipio["TASA_MORTALIDAD"] = (
+    defunciones_municipio["DEFUNCIONES"]
+    / defunciones_municipio["POBLACION"]
+    * 1000
+)
+
+# Seleccionar los 10 municipios con menor tasa
+defunciones_municipio = (
+    defunciones_municipio[
+        defunciones_municipio["POBLACION"] > 0
+    ]
+    .sort_values("TASA_MORTALIDAD", ascending=True)
     .head(10)
 )
+
 defunciones_municipio["MUNICIPIO_ETIQUETA"] = (
-    defunciones_municipio["MUNICIPIO"].astype("string")
+    defunciones_municipio["MUNICIPIO"].astype(str)
     + " - "
-    + defunciones_municipio["DEPARTAMENTO"].astype("string")
+    + defunciones_municipio["DEPARTAMENTO"].astype(str)
 )
+
 fig_menor_mortalidad = px.pie(
     defunciones_municipio,
     names="MUNICIPIO_ETIQUETA",
-    values="DEFUNCIONES",
+    values="TASA_MORTALIDAD",
     hole=0.48,
     color_discrete_sequence=px.colors.qualitative.Safe,
-    labels={"MUNICIPIO_ETIQUETA": "Municipio", "DEFUNCIONES": "Defunciones"},
+    labels={
+        "MUNICIPIO_ETIQUETA": "Municipio",
+        "TASA_MORTALIDAD": "Tasa por 1.000 habitantes",
+    },
 )
+
 fig_menor_mortalidad.update_traces(
     textposition="inside",
     textinfo="percent",
-    hovertemplate="%{label}<br>Defunciones: %{value:,}<extra></extra>",
+    hovertemplate=(
+        "%{label}<br>"
+        "Tasa: %{value:.3f} por 1.000 habitantes"
+        "<extra></extra>"
+    ),
 )
-
 # Apariencia común para las gráficas
 for figura in [
     fig_mes,
