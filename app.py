@@ -172,8 +172,24 @@ fig_sexo_departamento = px.bar(
 fig_sexo_departamento.update_layout(xaxis_tickangle=-45)
 
 df_homicidios = df[
-    df["MANERA_MUERTE"].astype("string").str.strip().str.upper() == "HOMICIDIO"
+    (
+        df["MANERA_MUERTE"]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+        == "HOMICIDIO"
+    )
+    &
+    (
+        df["COD_MUERTE"]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+        .str[:3]
+        .isin(codigos_armas_fuego)
+    )
 ].copy()
+
 homicidios_municipio = (
     df_homicidios.groupby(["DEPARTAMENTO", "MUNICIPIO"])
     .size()
@@ -182,6 +198,7 @@ homicidios_municipio = (
     .head(5)
     .sort_values("HOMICIDIOS", ascending=True)
 )
+
 fig_homicidios = px.bar(
     homicidios_municipio,
     x="HOMICIDIOS",
@@ -190,13 +207,19 @@ fig_homicidios = px.bar(
     orientation="h",
     labels={
         "MUNICIPIO": "Municipio",
-        "HOMICIDIOS": "Homicidios registrados",
+        "HOMICIDIOS": "Homicidios por arma de fuego",
         "DEPARTAMENTO": "Departamento",
     },
-    color_discrete_sequence=["#167D9A", "#43B9A8", "#F0A35E", "#7A8CC7", "#D46A6A"],
+    color_discrete_sequence=[
+        "#167D9A",
+        "#43B9A8",
+        "#F0A35E",
+        "#7A8CC7",
+        "#D46A6A",
+    ],
 )
-fig_homicidios.update_layout(showlegend=True)
 
+fig_homicidios.update_layout(showlegend=True)
 with open(ARCHIVO_GEOJSON, encoding="utf-8") as archivo:
     mapa_colombia = json.load(archivo)
 
