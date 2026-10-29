@@ -171,6 +171,9 @@ fig_sexo_departamento = px.bar(
 )
 fig_sexo_departamento.update_layout(xaxis_tickangle=-45)
 
+
+codigos_armas_fuego = ["X93", "X94", "X95"]
+
 df_homicidios = df[
     (
         df["MANERA_MUERTE"]
