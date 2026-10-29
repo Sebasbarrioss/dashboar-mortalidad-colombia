@@ -20,33 +20,39 @@ ARCHIVO_POBLACION = "PPED-AreaMun-2018-2042_VP.xlsx"
 df = pd.read_excel(ARCHIVO_DEFUNCIONES, sheet_name="No_Fetales_2019")
 poblacion = pd.read_excel(
     ARCHIVO_POBLACION,
-    sheet_name="PobMunicipalxÁrea"
+    sheet_name="PobMunicipalxÁrea",
+    header=8
 )
 
-# Limpiar los nombres de las columnas
-poblacion.columns = (
-    poblacion.columns.astype(str)
-    .str.strip()
-    .str.replace("\n", " ", regex=False)
-)
+# Limpiar nombres de columnas
+poblacion.columns = poblacion.columns.astype(str).str.strip()
 
-# Mostrar los nombres reales de las columnas en los registros de Render
-print("Columnas del archivo de población:", poblacion.columns.tolist())
+# Preparar los datos
+poblacion["AÑO"] = pd.to_numeric(poblacion["AÑO"], errors="coerce")
+poblacion["TOTAL"] = pd.to_numeric(poblacion["TOTAL"], errors="coerce")
 
-# Normalizar nombres para evitar diferencias de tildes y espacios
-columnas_normalizadas = {
-    columna: (
-        columna.upper()
-        .replace("Á", "A")
-        .replace("É", "E")
-        .replace("Í", "I")
-        .replace("Ó", "O")
-        .replace("Ú", "U")
+poblacion_2019 = poblacion[
+    (poblacion["AÑO"] == 2019)
+    & (
+        poblacion["ÁREA GEOGRÁFICA"]
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        == "TOTAL"
     )
-    for columna in poblacion.columns
-}
+].copy()
 
-poblacion = poblacion.rename(columns=columnas_normalizadas)
+poblacion_2019["COD_DANE"] = pd.to_numeric(
+    poblacion_2019["DPMP"], errors="coerce"
+)
+
+poblacion_2019 = poblacion_2019[
+    ["COD_DANE", "TOTAL"]
+].rename(columns={"TOTAL": "POBLACION"})
+
+poblacion_2019 = poblacion_2019.dropna(
+    subset=["COD_DANE", "POBLACION"]
+).drop_duplicates(subset=["COD_DANE"])
 divipola = pd.read_excel(ARCHIVO_DIVIPOLA, sheet_name="Hoja1")
 cie10 = pd.read_excel(ARCHIVO_CIE10, sheet_name="Final", header=8)
 
