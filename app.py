@@ -52,9 +52,7 @@ poblacion_2019 = poblacion[
     )
 ].copy()
 
-poblacion_2019["COD_DANE"] = pd.to_numeric(
-    poblacion_2019["DPMP"], errors="coerce"
-)
+poblacion_2019["COD_DANE"] = pd.to_numeric(poblacion_2019["MPIO"], errors="coerce")
 
 poblacion_2019 = poblacion_2019[
     ["COD_DANE", "TOTAL"]
