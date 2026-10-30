@@ -35,6 +35,9 @@ print("ENCABEZADOS POBLACION:", poblacion.columns.tolist())
 # Preparar los datos
 poblacion["AÑO"] = pd.to_numeric(poblacion["AÑO"], errors="coerce")
 poblacion["TOTAL"] = pd.to_numeric(poblacion["TOTAL"], errors="coerce")
+print("AÑOS DISPONIBLES:", sorted(poblacion["AÑO"].dropna().unique().tolist()))
+print("ÁREAS DISPONIBLES:", poblacion["ÁREA GEOGRÁFICA"].astype(str).str.strip().unique().tolist())
+print("PRIMERAS FILAS:", poblacion[["DPMP", "AÑO", "ÁREA GEOGRÁFICA", "TOTAL"]].head(10).to_dict("records"))
 
 poblacion_2019 = poblacion[
     (poblacion["AÑO"] == 2019)
