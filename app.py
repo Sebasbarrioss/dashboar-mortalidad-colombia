@@ -738,8 +738,8 @@ app.layout = html.Div(
                                             "350px",
                                         ),
                                         tarjeta_grafica(
-                                            "Diez municipios con menos defunciones registradas",
-                                            "Distribución de los diez municipios con menor conteo observado.",
+                                            "Diez municipios con menor tasa de mortalidad",
+                                            "Tasa de defunciones por cada 1.000 habitantes en 2019.",
                                             fig_menor_mortalidad,
                                             "350px",
                                         ),
