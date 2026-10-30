@@ -58,6 +58,10 @@ poblacion_2019 = poblacion_2019[
 poblacion_2019 = poblacion_2019.dropna(
     subset=["COD_DANE", "POBLACION"]
 ).drop_duplicates(subset=["COD_DANE"])
+print("Municipios en defunciones:", df["COD_DANE"].nunique())
+print("Municipios en población:", poblacion_2019["COD_DANE"].nunique())
+print("Ejemplos códigos defunciones:", df["COD_DANE"].dropna().head(10).tolist())
+print("Ejemplos códigos población:", poblacion_2019["COD_DANE"].head(10).tolist())
 divipola = pd.read_excel(ARCHIVO_DIVIPOLA, sheet_name="Hoja1")
 cie10 = pd.read_excel(ARCHIVO_CIE10, sheet_name="Final", header=8)
 
