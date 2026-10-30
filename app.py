@@ -24,6 +24,8 @@ poblacion = pd.read_excel(
     header=7
 )
 
+print("PRIMERAS FILAS COMPLETAS DE POBLACIÓN:", poblacion.head(12).to_dict("records"))
+
 # Limpiar nombres de columnas
 poblacion.columns = (
     poblacion.columns.astype(str)
