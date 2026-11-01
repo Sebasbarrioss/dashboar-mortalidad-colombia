@@ -120,25 +120,25 @@ En el dashboard se integran diferentes visualizaciones interactivas, mediante gr
 ### 1. Mapa de defunciones por departamento
 
 
-![Mapa de defunciones](Imagen/mapa_defunciones.png)
+![Mapa de defunciones](Imagenes/mapa_defunciones.png)
 
 Se realiza un mapa coroplético, interactivo que colorea cada departamento según su número de defunciones. Bogotá D.C. (38.760), Antioquia (34.473) y Valle del Cauca (28.443) concentran más de 41 % de las muertes del país, en línea con su tamaño de población. En el extremo opuesto están Vaupés (87), Guainía (115) y Vichada (188).
 
 ### 2. Gráfico de líneas: defunciones por mes
 
-![Defunciones por mes](img/defunciones_mensuales.png)
+![Defunciones por mes](Imagenes/defunciones_mensuales.png)
 
 Se realiza un grafico de lineas que represente del total de muertes por mes en Colombia, donde la serie se mueve entre 18.000 y 21.700 muertes por mes. Febrero es el mínimo (17.974), en parte por ser el mes más corto, y diciembre el máximo (21.678). Enero (21.354) y julio (21.372) también son meses altos.
 
 ### 3. Gráfico de barras: cinco municipios con más homicidios por arma de fuego
 
-![Municipios con más homicidios](Imagen/homicidios_arma_fuego.png)
+![Municipios con más homicidios](Imagenes/homicidios_arma_fuego.png)
 
 Se lleva a cabo un gráfico de barras donde se visualice las 5 ciudades más violentas, se considera las defunciones de manera "homicidio" con códigos X93, X94 y X95 (agresión con disparo de armas de fuego y casos no especificados). Santiago de Cali encabeza con 971 casos, seguida de Bogotá D.C. (613), Medellín (429), Barranquilla (260) y San José de Cúcuta (206). Cada barra se colorea por departamento.
 
 ### 4. Gráfico circular: diez municipios con menor tasa de mortalidad
 
-![Municipios con menor tasa de mortalidad](Imagen/menor_tasa_mortalidad.png)
+![Municipios con menor tasa de mortalidad](Imagenes/menor_tasa_mortalidad.png)
 
 Para medir la mortalidad de forma comparable entre municipios de distinto tamaño se toma un gráfico circular, que usa la **tasa de defunciones por cada 1.000 habitantes**. Se calcula dividiendo las defunciones de cada municipio entre su población de 2019 (proyecciones del DANE) y se muestran los diez municipios con la tasa más baja. Se tomó más información del cena como la proyección según municipio, para ser más exacto en cuanto a los resultados, ya que se necesitaba la variable de cantidad de población para tener resultados más óptimos en el análisis. 
 
@@ -146,7 +146,7 @@ Los diez municipios son Alto Baudó (0,04 por 1.000 habitantes), Nuquí (0,06), 
 
 ### 5. Tabla: diez principales causas de muerte
 
-![Principales causas de muerte](Imagen/principales_causas.png)
+![Principales causas de muerte](Imagenes/principales_causas.png)
 
 | Código | Causa de muerte | Defunciones |
 |---|---|---|
@@ -165,13 +165,13 @@ Se realizo una tabla sobre las 10 principales causas de muerte, en el que sus re
 
 ### 6. Gráfico de barras apiladas: defunciones por sexo en cada departamento
 
-![Defunciones por sexo y departamento](Imagen/sexo_departamento.png)
+![Defunciones por sexo y departamento](Imagenes/sexo_departamento.png)
 
 Del total, 134.573 defunciones corresponden a hombres (55,1 %), 109.689 a mujeres (44,9 %) y 93 no tienen sexo determinado. Los hombres superan a las mujeres en los 33 departamentos. Los departamentos más poblados, como Bogotá D.C., Antioquia y Valle del Cauca, tienen las barras más altas.
 
 ### 7. Histograma: defunciones por etapa del ciclo de vida
 
-![Grupos de edad](Imagen/defunciones_etapa_vida.png)
+![Grupos de edad](Imagenes/defunciones_etapa_vida.png)
 
 Este grafico agrupa el campo `GRUPO_EDAD1` en las categorías de la actividad. En la aplicación, la categoría de mortalidad neonatal considera el código 4; los códigos 0 a 3 aparecen en la categoría "Sin clasificar".
 
